@@ -9,8 +9,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { CodeSnippet } from "@shared/schema";
 
 export default function Gallery() {
-  const [languageFilter, setLanguageFilter] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("");
+  const [languageFilter, setLanguageFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -39,8 +39,8 @@ export default function Gallery() {
   });
 
   const filteredSnippets = snippets.filter((snippet) => {
-    const matchesLanguage = !languageFilter || snippet.language === languageFilter;
-    const matchesCategory = !categoryFilter || snippet.category === categoryFilter;
+    const matchesLanguage = languageFilter === "all" || snippet.language === languageFilter;
+    const matchesCategory = categoryFilter === "all" || snippet.category === categoryFilter;
     return matchesLanguage && matchesCategory;
   });
 
@@ -99,7 +99,7 @@ export default function Gallery() {
               <SelectValue placeholder="Tümü" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Tümü</SelectItem>
+              <SelectItem value="all">Tümü</SelectItem>
               <SelectItem value="javascript">JavaScript</SelectItem>
               <SelectItem value="python">Python</SelectItem>
               <SelectItem value="java">Java</SelectItem>
@@ -115,7 +115,7 @@ export default function Gallery() {
               <SelectValue placeholder="Tümü" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Tümü</SelectItem>
+              <SelectItem value="all">Tümü</SelectItem>
               <SelectItem value="Web Development">Web Development</SelectItem>
               <SelectItem value="Mobile Development">Mobile Development</SelectItem>
               <SelectItem value="Data Science">Data Science</SelectItem>

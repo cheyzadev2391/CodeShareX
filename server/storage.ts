@@ -23,6 +23,9 @@ export class MemStorage implements IStorage {
     const snippet: CodeSnippet = {
       ...insertSnippet,
       id,
+      tags: insertSnippet.tags || null,
+      isPublic: insertSnippet.isPublic ?? true,
+      allowComments: insertSnippet.allowComments ?? true,
       views: 0,
       likes: 0,
       createdAt: now,

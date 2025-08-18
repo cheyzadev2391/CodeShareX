@@ -10,14 +10,18 @@ import { tr } from "date-fns/locale";
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchLanguage, setSearchLanguage] = useState("");
-  const [searchCategory, setSearchCategory] = useState("");
-  const [dateRange, setDateRange] = useState("");
+  const [searchLanguage, setSearchLanguage] = useState("all");
+  const [searchCategory, setSearchCategory] = useState("all");
+  const [dateRange, setDateRange] = useState("all");
   const [minRating, setMinRating] = useState("");
   const [isSearching, setIsSearching] = useState(false);
 
   const { data: searchResults = [], isLoading } = useQuery<CodeSnippet[]>({
-    queryKey: ["/api/search", { q: searchQuery, language: searchLanguage, category: searchCategory }],
+    queryKey: ["/api/search", { 
+      q: searchQuery, 
+      language: searchLanguage === "all" ? "" : searchLanguage, 
+      category: searchCategory === "all" ? "" : searchCategory 
+    }],
     enabled: isSearching && searchQuery.length > 0,
   });
 
@@ -92,7 +96,7 @@ export default function Search() {
                 <SelectValue placeholder="Tümü" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Tümü</SelectItem>
+                <SelectItem value="all">Tümü</SelectItem>
                 <SelectItem value="javascript">JavaScript</SelectItem>
                 <SelectItem value="python">Python</SelectItem>
                 <SelectItem value="java">Java</SelectItem>
@@ -108,7 +112,7 @@ export default function Search() {
                 <SelectValue placeholder="Tümü" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Tümü</SelectItem>
+                <SelectItem value="all">Tümü</SelectItem>
                 <SelectItem value="Web Development">Web Development</SelectItem>
                 <SelectItem value="Mobile Development">Mobile Development</SelectItem>
                 <SelectItem value="Data Science">Data Science</SelectItem>
@@ -124,7 +128,7 @@ export default function Search() {
                 <SelectValue placeholder="Tüm zamanlar" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Tüm zamanlar</SelectItem>
+                <SelectItem value="all">Tüm zamanlar</SelectItem>
                 <SelectItem value="day">Son 24 saat</SelectItem>
                 <SelectItem value="week">Son hafta</SelectItem>
                 <SelectItem value="month">Son ay</SelectItem>
