@@ -1,6 +1,13 @@
 # Overview
 
-MinuslarDev is a code sharing platform that allows users to create, share, and discover code snippets. The application features a modern web interface with syntax highlighting, code categorization, and social features like views and likes. Built with React/TypeScript frontend and Express/Node.js backend, it provides a seamless experience for developers to share code with the community.
+MinuslarDev is a complete, functional Turkish code sharing platform designed for the Discord developer community. The platform features a dark green theme with gradient backgrounds, modern Monaco Editor integration, and comprehensive code management functionality. Built with React/TypeScript frontend and Express/Node.js backend, it provides a professional-grade experience for developers to share, discover, and interact with code snippets.
+
+## Recent Changes (January 2025)
+- Fixed all Select component errors by replacing empty string values with "all"
+- Implemented full Turkish localization for all UI elements
+- Enhanced dark green gradient theme as requested
+- All functionality is operational: code sharing, gallery filtering, search, and navigation
+- Resolved LSP diagnostics and type safety issues
 
 # User Preferences
 
