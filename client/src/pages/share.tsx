@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Link } from "wouter";
+import { useAuth } from "@/hooks/useAuth";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import CodeEditor from "@/components/code-editor";
@@ -7,9 +9,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { LogIn, UserPlus } from "lucide-react";
 import { InsertCodeSnippet } from "@shared/schema";
 
 export default function Share() {
+  const { user, isAuthenticated } = useAuth();
   const [title, setTitle] = useState("");
   const [language, setLanguage] = useState("javascript");
   const [code, setCode] = useState("");
@@ -21,9 +28,61 @@ export default function Share() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  // If user is not authenticated, show authentication prompt
+  if (!isAuthenticated) {
+    return (
+      <div className="container mx-auto px-6 py-12">
+        <Card className="max-w-md mx-auto bg-black/50 border-green-800">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl text-green-400 mb-4">
+              Kod Paylaşmak İçin Giriş Yapın
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-center space-y-4">
+            <Alert className="border-green-600 bg-green-950/50">
+              <AlertDescription className="text-green-400">
+                Kod paylaşabilmek için hesabınıza giriş yapmanız gerekmektedir.
+              </AlertDescription>
+            </Alert>
+            
+            <div className="flex flex-col gap-3">
+              <Link href="/giris-yap" className="w-full">
+                <Button className="w-full bg-green-600 hover:bg-green-700" data-testid="button-login">
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Giriş Yap
+                </Button>
+              </Link>
+              
+              <Link href="/kayit-ol" className="w-full">
+                <Button variant="outline" className="w-full border-green-800 text-green-400 hover:bg-green-950" data-testid="button-register">
+                  <UserPlus className="w-4 h-4 mr-2" />
+                  Kayıt Ol
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   const createCodeMutation = useMutation({
     mutationFn: async (data: InsertCodeSnippet) => {
-      const response = await apiRequest("POST", "/api/code", data);
+      const token = localStorage.getItem("token");
+      const response = await fetch("/api/code", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Kod kaydedilemedi");
+      }
+
       return response.json();
     },
     onSuccess: (newSnippet) => {
