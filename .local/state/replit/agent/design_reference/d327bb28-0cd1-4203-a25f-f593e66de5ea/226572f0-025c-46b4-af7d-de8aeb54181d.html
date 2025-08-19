@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MinuslarDev - Kod Paylaşım Platformu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-green': '#00FF88',
+                        'dark-bg': '#0D1117',
+                        'card-bg': '#1A1A1A',
+                        'border-gray': '#2D3748',
+                        'text-light': '#E6E6E6',
+                        'text-muted': '#A0A0A0'
+                    },
+                    fontFamily: {
+                        'mono': ['JetBrains Mono', 'Consolas', 'monospace'],
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    backgroundImage: {
+                        'dark-gradient': 'linear-gradient(135deg, #0D1117 0%, #1A2B1A 100%)',
+                        'card-gradient': 'linear-gradient(145deg, #1A1A1A 0%, #242424 100%)'
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-editor {
+            background: #1e1e1e;
+            border: 1px solid #2d3748;
+        }
+        .glow-green {
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+        .hover-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-dark-gradient min-h-screen text-text-light font-sans">
+    <!-- @COMPONENT: Header [navigation and branding] -->
+    <header class="border-b border-border-gray bg-black/20 backdrop-blur-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <nav class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-primary-green rounded-lg flex items-center justify-center">
+                        <i class="fas fa-code text-dark-bg text-lg font-bold"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-primary-green to-green-400 bg-clip-text text-transparent">
+                        MinuslarDev
+                    </h1>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="hover:text-primary-green transition-colors">Ana Sayfa</a>
+                    <a href="#" class="hover:text-primary-green transition-colors">Keşfet</a>
+                    <a href="#" class="hover:text-primary-green transition-colors">Hakkında</a>
+                    <button class="bg-primary-green text-dark-bg px-4 py-2 rounded-lg hover:bg-green-400 transition-colors font-medium">
+                        <i class="fab fa-github mr-2"></i>GitHub
+                    </button>
+                </div>
+                
+                <button class="md:hidden text-primary-green">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: Header -->
+
+    <!-- @COMPONENT: MainContent [code editor and sharing functionality] -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <h2 class="text-4xl md:text-6xl font-bold mb-4">
+                <span class="bg-gradient-to-r from-primary-green via-green-400 to-primary-green bg-clip-text text-transparent">
+                    Kod Paylaş
+                </span>
+                <br>
+                <span class="text-text-light">Kolayca</span>
+            </h2>
+            <p class="text-text-muted text-lg md:text-xl max-w-2xl mx-auto">
+                Discord sunucularında kod parçacıklarını paylaşmanın en hızlı ve güvenli yolu. 
+                Açık kaynak, modern ve kullanıcı dostu.
+            </p>
+        </section>
+
+        <!-- Code Editor Section -->
+        <div class="max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Main Editor -->
+                <div class="lg:col-span-2">
+                    <div class="bg-card-gradient rounded-xl p-6 border border-border-gray hover-lift">
+                        <!-- Editor Header -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-4">
+                                <select class="bg-dark-bg border border-border-gray rounded-lg px-3 py-2 text-text-light focus:ring-2 focus:ring-primary-green focus:border-transparent">
+                                    <!-- @STATE: selectedLanguage:string = 'javascript' -->
+                                    <option value="javascript">JavaScript</option>
+                                    <option value="python">Python</option>
+                                    <option value="java">Java</option>
+                                    <option value="cpp">C++</option>
+                                    <option value="html">HTML</option>
+                                    <option value="css">CSS</option>
+                                    <option value="sql">SQL</option>
+                                    <option value="json">JSON</option>
+                                </select>
+                                
+                                <input 
+                                    type="text" 
+                                    placeholder="Kod başlığı (isteğe bağlı)" 
+                                    class="bg-dark-bg border border-border-gray rounded-lg px-3 py-2 text-text-light placeholder-text-muted focus:ring-2 focus:ring-primary-green focus:border-transparent flex-1 min-w-0"
+                                    data-bind="codeTitle"
+                                />
+                            </div>
+                        </div>
+
+                        <!-- Code Editor Area -->
+                        <div class="code-editor rounded-lg overflow-hidden mb-4" style="height: 400px;">
+                            <!-- @FUNCTIONALITY: Implement Monaco Editor here with syntax highlighting -->
+                            <div class="h-full p-4 font-mono text-sm bg-gray-900 text-gray-100 overflow-auto">
+                                <div class="text-green-400">// Kodunuzu buraya yazın...</div>
+                                <div class="mt-2">
+                                    <span class="text-purple-400">function</span> 
+                                    <span class="text-yellow-300">example</span>() {<br>
+                                    &nbsp;&nbsp;<span class="text-blue-400">console</span>.<span class="text-yellow-300">log</span>(<span class="text-green-300">'Merhaba MinuslarDev!'</span>);<br>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Editor Actions -->
+                        <div class="flex flex-wrap items-center justify-between gap-4">
+                            <div class="flex items-center space-x-3">
+                                <label class="flex items-center space-x-2 text-text-muted">
+                                    <input type="checkbox" class="rounded border-border-gray bg-dark-bg text-primary-green focus:ring-primary-green">
+                                    <span>Gizli paylaşım</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-text-muted">
+                                    <input type="checkbox" class="rounded border-border-gray bg-dark-bg text-primary-green focus:ring-primary-green">
+                                    <span>Düzenleme izni</span>
+                                </label>
+                            </div>
+                            
+                            <div class="flex space-x-3">
+                                <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors" data-event="click:clearCode">
+                                    <i class="fas fa-trash-alt mr-2"></i>Temizle
+                                </button>
+                                <button class="bg-primary-green text-dark-bg px-6 py-2 rounded-lg hover:bg-green-400 transition-colors font-medium glow-green" data-event="click:shareCode">
+                                    <i class="fas fa-share mr-2"></i>Paylaş
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Quick Stats -->
+                    <div class="bg-card-gradient rounded-xl p-6 border border-border-gray hover-lift">
+                        <h3 class="text-xl font-semibold mb-4 text-primary-green">İstatistikler</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-text-muted">Toplam Kod</span>
+                                <span class="text-text-light font-semibold" data-bind="totalSnippets">1,247</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-text-muted">Bu Hafta</span>
+                                <span class="text-text-light font-semibold" data-bind="weeklySnippets">89</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-text-muted">Aktif Kullanıcı</span>
+                                <span class="text-text-light font-semibold" data-bind="activeUsers">156</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Popular Languages -->
+                    <div class="bg-card-gradient rounded-xl p-6 border border-border-gray hover-lift">
+                        <h3 class="text-xl font-semibold mb-4 text-primary-green">Popüler Diller</h3>
+                        <div class="space-y-3">
+                            <!-- @MAP: popularLanguages.map(lang => ( -->
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                                    <span>JavaScript</span>
+                                </div>
+                                <span class="text-text-muted text-sm">34%</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-blue-400 rounded-full"></div>
+                                    <span>Python</span>
+                                </div>
+                                <span class="text-text-muted text-sm">22%</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-red-400 rounded-full"></div>
+                                    <span>Java</span>
+                                </div>
+                                <span class="text-text-muted text-sm">18%</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                                    <span>C++</span>
+                                </div>
+                                <span class="text-text-muted text-sm">15%</span>
+                            </div>
+                            <!-- @END_MAP )) -->
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="bg-card-gradient rounded-xl p-6 border border-border-gray hover-lift">
+                        <h3 class="text-xl font-semibold mb-4 text-primary-green">Hızlı Eylemler</h3>
+                        <div class="space-y-3">
+                            <button class="w-full bg-dark-bg border border-border-gray rounded-lg p-3 text-left hover:bg-gray-800 transition-colors">
+                                <i class="fas fa-file-import text-primary-green mr-3"></i>
+                                Dosya Yükle
+                            </button>
+                            <button class="w-full bg-dark-bg border border-border-gray rounded-lg p-3 text-left hover:bg-gray-800 transition-colors">
+                                <i class="fas fa-random text-primary-green mr-3"></i>
+                                Rastgele Kod
+                            </button>
+                            <button class="w-full bg-dark-bg border border-border-gray rounded-lg p-3 text-left hover:bg-gray-800 transition-colors">
+                                <i class="fas fa-history text-primary-green mr-3"></i>
+                                Son Paylaşımlar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Codes Section -->
+        <section class="mt-16">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-bold text-text-light">Son Paylaşılan Kodlar</h2>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            placeholder="Kod ara..." 
+                            class="bg-dark-bg border border-border-gray rounded-lg pl-10 pr-4 py-2 text-text-light placeholder-text-muted focus:ring-2 focus:ring-primary-green focus:border-transparent"
+                        />
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted"></i>
+                    </div>
+                    <select class="bg-dark-bg border border-border-gray rounded-lg px-3 py-2 text-text-light focus:ring-2 focus:ring-primary-green focus:border-transparent">
+                        <option>Tüm Diller</option>
+                        <option>JavaScript</option>
+                        <option>Python</option>
+                        <option>Java</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- @MAP: recentCodes.map(code => ( -->
+                <div class="bg-card-gradient rounded-xl p-6 border border-border-gray hover-lift cursor-pointer" data-event="click:viewCode">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="font-semibold text-text-light mb-1" data-bind="code.title">API Helper Functions</h3>
+                            <div class="flex items-center space-x-2 text-text-muted text-sm">
+                                <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                                <span data-bind="code.language">JavaScript</span>
+                                <span>•</span>
+                                <span data-bind="code.timeAgo">2 saat önce</span>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="text-text-muted hover:text-primary-green transition-colors" data-event="click:copyCode">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="text-text-muted hover:text-red-400 transition-colors" data-event="click:reportCode">
+                                <i class="fas fa-flag"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-900 rounded-lg p-3 mb-4 overflow-x-auto">
+                        <code class="font-mono text-sm text-gray-300" data-bind="code.preview">
+                            <span class="text-purple-400">const</span> <span class="text-blue-300">fetchData</span> = <span class="text-purple-400">async</span> (url) => {<br>
+                            &nbsp;&nbsp;<span class="text-purple-400">try</span> {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">const</span> response = <span class="text-purple-400">await</span> <span class="text-yellow-300">fetch</span>(url);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-purple-400">await</span> response.<span class="text-yellow-300">json</span>();<br>
+                            &nbsp;&nbsp;} <span class="text-purple-400">catch</span> (error) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">console</span>.<span class="text-yellow-300">error</span>(error);<br>
+                            &nbsp;&nbsp;}<br>
+                            };
+                        </code>
+                    </div>
+                    
+                    <div class="flex items-center justify-between text-sm text-text-muted">
+                        <div class="flex items-center space-x-4">
+                            <span><i class="fas fa-eye mr-1"></i><span data-bind="code.views">127</span></span>
+                            <span><i class="fas fa-heart mr-1"></i><span data-bind="code.likes">23</span></span>
+                        </div>
+                        <span class="truncate max-w-24" data-bind="code.author">@developer_tr</span>
+                    </div>
+                </div>
+
+                <div class="bg-card-gradient rounded-xl p-6 border border-border-gray hover-lift cursor-pointer" data-event="click:viewCode">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="font-semibold text-text-light mb-1">Python Data Analysis</h3>
+                            <div class="flex items-center space-x-2 text-text-muted text-sm">
+                                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                <span>Python</span>
+                                <span>•</span>
+                                <span>4 saat önce</span>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="text-text-muted hover:text-primary-green transition-colors">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="text-text-muted hover:text-red-400 transition-colors">
+                                <i class="fas fa-flag"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-900 rounded-lg p-3 mb-4 overflow-x-auto">
+                        <code class="font-mono text-sm text-gray-300">
+                            <span class="text-purple-400">import</span> <span class="text-blue-300">pandas</span> <span class="text-purple-400">as</span> <span class="text-blue-300">pd</span><br>
+                            <span class="text-purple-400">import</span> <span class="text-blue-300">numpy</span> <span class="text-purple-400">as</span> <span class="text-blue-300">np</span><br><br>
+                            <span class="text-blue-300">df</span> = <span class="text-blue-300">pd</span>.<span class="text-yellow-300">read_csv</span>(<span class="text-green-300">'data.csv'</span>)<br>
+                            <span class="text-blue-400">print</span>(<span class="text-blue-300">df</span>.<span class="text-yellow-300">describe</span>())
+                        </code>
+                    </div>
+                    
+                    <div class="flex items-center justify-between text-sm text-text-muted">
+                        <div class="flex items-center space-x-4">
+                            <span><i class="fas fa-eye mr-1"></i>89</span>
+                            <span><i class="fas fa-heart mr-1"></i>15</span>
+                        </div>
+                        <span class="truncate max-w-24">@data_scientist</span>
+                    </div>
+                </div>
+
+                <div class="bg-card-gradient rounded-xl p-6 border border-border-gray hover-lift cursor-pointer" data-event="click:viewCode">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="font-semibold text-text-light mb-1">CSS Animation Utils</h3>
+                            <div class="flex items-center space-x-2 text-text-muted text-sm">
+                                <div class="w-2 h-2 bg-pink-400 rounded-full"></div>
+                                <span>CSS</span>
+                                <span>•</span>
+                                <span>6 saat önce</span>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="text-text-muted hover:text-primary-green transition-colors">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="text-text-muted hover:text-red-400 transition-colors">
+                                <i class="fas fa-flag"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-900 rounded-lg p-3 mb-4 overflow-x-auto">
+                        <code class="font-mono text-sm text-gray-300">
+                            <span class="text-red-400">.fade-in</span> {<br>
+                            &nbsp;&nbsp;<span class="text-blue-300">animation</span>: <span class="text-green-300">fadeIn</span> <span class="text-yellow-300">0.5s</span> <span class="text-green-300">ease-in</span>;<br>
+                            }<br><br>
+                            <span class="text-yellow-300">@keyframes</span> <span class="text-green-300">fadeIn</span> {<br>
+                            &nbsp;&nbsp;<span class="text-yellow-300">from</span> { <span class="text-blue-300">opacity</span>: <span class="text-yellow-300">0</span>; }<br>
+                            &nbsp;&nbsp;<span class="text-yellow-300">to</span> { <span class="text-blue-300">opacity</span>: <span class="text-yellow-300">1</span>; }<br>
+                            }
+                        </code>
+                    </div>
+                    
+                    <div class="flex items-center justify-between text-sm text-text-muted">
+                        <div class="flex items-center space-x-4">
+                            <span><i class="fas fa-eye mr-1"></i>203</span>
+                            <span><i class="fas fa-heart mr-1"></i>41</span>
+                        </div>
+                        <span class="truncate max-w-24">@css_master</span>
+                    </div>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+
+            <div class="text-center mt-8">
+                <button class="bg-dark-bg border border-border-gray text-text-light px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors">
+                    Daha Fazla Yükle <i class="fas fa-chevron-down ml-2"></i>
+                </button>
+            </div>
+        </section>
+    </main>
+    <!-- @END_COMPONENT: MainContent -->
+
+    <!-- @COMPONENT: Footer [site information and links] -->
+    <footer class="border-t border-border-gray bg-black/20 backdrop-blur-sm mt-20">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-8 h-8 bg-primary-green rounded-lg flex items-center justify-center">
+                            <i class="fas fa-code text-dark-bg font-bold"></i>
+                        </div>
+                        <h3 class="text-xl font-bold bg-gradient-to-r from-primary-green to-green-400 bg-clip-text text-transparent">
+                            MinuslarDev
+                        </h3>
+                    </div>
+                    <p class="text-text-muted text-sm">
+                        Discord sunucuları için modern, hızlı ve güvenli kod paylaşım platformu. 
+                        Açık kaynak ve ücretsiz.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-text-light mb-4">Platform</h4>
+                    <ul class="space-y-2 text-text-muted text-sm">
+                        <li><a href="#" class="hover:text-primary-green transition-colors">Ana Sayfa</a></li>
+                        <li><a href="#" class="hover:text-primary-green transition-colors">Keşfet</a></li>
+                        <li><a href="#" class="hover:text-primary-green transition-colors">API</a></li>
+                        <li><a href="#" class="hover:text-primary-green transition-colors">Belgeler</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-text-light mb-4">Topluluk</h4>
+                    <ul class="space-y-2 text-text-muted text-sm">
+                        <li><a href="#" class="hover:text-primary-green transition-colors">Discord</a></li>
+                        <li><a href="#" class="hover:text-primary-green transition-colors">GitHub</a></li>
+                        <li><a href="#" class="hover:text-primary-green transition-colors">Twitter</a></li>
+                        <li><a href="#" class="hover:text-primary-green transition-colors">Destek</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-text-light mb-4">Yasal</h4>
+                    <ul class="space-y-2 text-text-muted text-sm">
+                        <li><a href="#" class="hover:text-primary-green transition-colors">Gizlilik Politikası</a></li>
+                        <li><a href="#" class="hover:text-primary-green transition-colors">Kullanım Şartları</a></li>
+                        <li><a href="#" class="hover:text-primary-green transition-colors">Çerezler</a></li>
+                        <li><a href="#" class="hover:text-primary-green transition-colors">Lisans</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-border-gray mt-8 pt-8 flex flex-col md:flex-row items-center justify-between">
+                <p class="text-text-muted text-sm">
+                    © 2024 MinuslarDev. Tüm hakları saklıdır. Açık kaynak ile ❤️ ile yapıldı.
+                </p>
+                <div class="flex items-center space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-text-muted hover:text-primary-green transition-colors">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="#" class="text-text-muted hover:text-primary-green transition-colors">
+                        <i class="fab fa-discord text-xl"></i>
+                    </a>
+                    <a href="#" class="text-text-muted hover:text-primary-green transition-colors">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <script>
+        (function() {
+            // TODO: Implement Monaco Editor integration
+            // TODO: Implement syntax highlighting
+            // TODO: Implement code sharing functionality
+            // TODO: Implement copy to clipboard
+            // TODO: Implement search functionality
+            // TODO: Implement user authentication
+            // TODO: Implement code persistence/database
+            
+            // Basic UI interactions for demo purposes
+            document.addEventListener('DOMContentLoaded', function() {
+                // Smooth scrolling for internal links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                });
+
+                // Mobile menu toggle (placeholder)
+                const mobileMenuButton = document.querySelector('.md\\:hidden');
+                if (mobileMenuButton) {
+                    mobileMenuButton.addEventListener('click', function() {
+                        // TODO: Implement mobile menu toggle
+                        console.log('Mobile menu clicked');
+                    });
+                }
+
+                // Form interactions (placeholder)
+                const shareButton = document.querySelector('[data-event="click:shareCode"]');
+                if (shareButton) {
+                    shareButton.addEventListener('click', function() {
+                        // TODO: Implement code sharing logic
+                        this.innerHTML = '<i class="fas fa-check mr-2"></i>Paylaşıldı!';
+                        this.classList.add('bg-green-600');
+                        setTimeout(() => {
+                            this.innerHTML = '<i class="fas fa-share mr-2"></i>Paylaş';
+                            this.classList.remove('bg-green-600');
+                        }, 2000);
+                    });
+                }
+
+                // Copy code functionality (placeholder)
+                document.querySelectorAll('[data-event="click:copyCode"]').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        // TODO: Implement actual copy functionality
+                        this.innerHTML = '<i class="fas fa-check"></i>';
+                        setTimeout(() => {
+                            this.innerHTML = '<i class="fas fa-copy"></i>';
+                        }, 1000);
+                    });
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

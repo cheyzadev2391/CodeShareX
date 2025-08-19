@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MinuslarDev - Kod Paylaşım Platformu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'dark-green': '#0D4B2D',
+                        'accent-green': '#22C55E',
+                        'light-green': '#16A34A',
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.34.1/min/vs/loader.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-inter bg-gradient-to-br from-dark-green via-gray-900 to-black min-h-screen text-white">
+    
+    <!-- @COMPONENT: Header [navigation and branding] -->
+    <header class="sticky top-0 z-50 bg-gradient-to-r from-dark-green/90 to-black/90 backdrop-blur-lg border-b border-accent-green/20">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo/Brand -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-accent-green to-light-green rounded-lg flex items-center justify-center">
+                        <i class="fas fa-code text-white text-lg"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-accent-green to-white bg-clip-text text-transparent">
+                        MinuslarDev
+                    </h1>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" data-nav="home" class="nav-link text-white hover:text-accent-green transition-colors duration-300 font-medium">
+                        Ana Sayfa
+                    </a>
+                    <a href="#share" data-nav="share" class="nav-link text-white hover:text-accent-green transition-colors duration-300 font-medium">
+                        Kod Paylaş
+                    </a>
+                    <a href="#gallery" data-nav="gallery" class="nav-link text-white hover:text-accent-green transition-colors duration-300 font-medium">
+                        Kod Galerisi
+                    </a>
+                    <a href="#search" data-nav="search" class="nav-link text-white hover:text-accent-green transition-colors duration-300 font-medium">
+                        Ara
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-white hover:text-accent-green transition-colors">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t border-accent-green/20">
+                <div class="flex flex-col space-y-4">
+                    <a href="#home" class="nav-link text-white hover:text-accent-green transition-colors">Ana Sayfa</a>
+                    <a href="#share" class="nav-link text-white hover:text-accent-green transition-colors">Kod Paylaş</a>
+                    <a href="#gallery" class="nav-link text-white hover:text-accent-green transition-colors">Kod Galerisi</a>
+                    <a href="#search" class="nav-link text-white hover:text-accent-green transition-colors">Ara</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- @END_COMPONENT: Header -->
+
+    <!-- @COMPONENT: MainContent [dynamic content container] -->
+    <main class="container mx-auto px-6 py-8">
+        
+        <!-- @COMPONENT: HomePage [landing section] -->
+        <section id="home" class="section-content">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-accent-green via-white to-accent-green bg-clip-text text-transparent">
+                    Kod Paylaşımının Yeni Adresi
+                </h2>
+                <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    MinuslarDev ile kodlarınızı kolayca paylaşın, keşfedin ve toplulukla etkileşime geçin. 
+                    Açık kaynak, modern ve kullanıcı dostu platform.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button data-nav="share" class="px-8 py-4 bg-gradient-to-r from-accent-green to-light-green text-white font-semibold rounded-xl hover:scale-105 transform transition-all duration-300 shadow-lg hover:shadow-accent-green/25">
+                        <i class="fas fa-code mr-2"></i>
+                        Hemen Kod Paylaş
+                    </button>
+                    <button data-nav="gallery" class="px-8 py-4 border-2 border-accent-green text-accent-green font-semibold rounded-xl hover:bg-accent-green hover:text-white transition-all duration-300">
+                        <i class="fas fa-search mr-2"></i>
+                        Kodları Keşfet
+                    </button>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-8 rounded-2xl border border-accent-green/20 hover:border-accent-green/40 transition-all duration-300 hover:transform hover:scale-105">
+                    <div class="w-12 h-12 bg-accent-green/20 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-bolt text-accent-green text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-white">Hızlı Paylaşım</h3>
+                    <p class="text-gray-300">Kodunuzu anında paylaşın ve direkt link alın. Tek tıkla panoya kopyalama.</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-8 rounded-2xl border border-accent-green/20 hover:border-accent-green/40 transition-all duration-300 hover:transform hover:scale-105">
+                    <div class="w-12 h-12 bg-accent-green/20 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-palette text-accent-green text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-white">Syntax Highlighting</h3>
+                    <p class="text-gray-300">100+ programlama dili desteği ile kodlarınız her zaman okunabilir.</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-8 rounded-2xl border border-accent-green/20 hover:border-accent-green/40 transition-all duration-300 hover:transform hover:scale-105">
+                    <div class="w-12 h-12 bg-accent-green/20 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-users text-accent-green text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-white">Topluluk</h3>
+                    <p class="text-gray-300">Açık kaynak toplulukla birlikte geliştirin ve öğrenin.</p>
+                </div>
+            </div>
+        </section>
+        <!-- @END_COMPONENT: HomePage -->
+
+        <!-- @COMPONENT: SharePage [code sharing interface] -->
+        <section id="share" class="section-content hidden">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-8">
+                    <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-accent-green to-white bg-clip-text text-transparent">
+                        Kod Paylaş
+                    </h2>
+                    <p class="text-gray-300">Kodunuzu düzenleyin, kaydedin ve toplulukla paylaşın</p>
+                </div>
+
+                <!-- Code Editor Container -->
+                <div class="bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-2xl border border-accent-green/20 overflow-hidden">
+                    <!-- Editor Header -->
+                    <div class="flex items-center justify-between p-4 border-b border-accent-green/20">
+                        <div class="flex items-center space-x-4">
+                            <select id="language-select" class="bg-gray-800 text-white px-4 py-2 rounded-lg border border-accent-green/20 focus:border-accent-green outline-none">
+                                <option value="javascript">JavaScript</option>
+                                <option value="python">Python</option>
+                                <option value="java">Java</option>
+                                <option value="cpp">C++</option>
+                                <option value="csharp">C#</option>
+                                <option value="php">PHP</option>
+                                <option value="html">HTML</option>
+                                <option value="css">CSS</option>
+                                <option value="sql">SQL</option>
+                            </select>
+                            <input type="text" id="code-title" placeholder="Kod başlığı..." class="bg-gray-800 text-white px-4 py-2 rounded-lg border border-accent-green/20 focus:border-accent-green outline-none flex-1 min-w-64">
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button id="copy-btn" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors">
+                                <i class="fas fa-copy mr-2"></i>Kopyala
+                            </button>
+                            <button id="save-btn" class="px-4 py-2 bg-accent-green hover:bg-light-green text-white rounded-lg transition-colors">
+                                <i class="fas fa-save mr-2"></i>Kaydet
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Monaco Editor -->
+                    <div id="editor-container" class="h-96 w-full"></div>
+                </div>
+
+                <!-- Code Settings -->
+                <div class="mt-6 grid md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-gray-800/30 to-gray-900/30 p-6 rounded-xl border border-accent-green/20">
+                        <h3 class="text-lg font-semibold mb-4 text-white">Kod Ayarları</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm text-gray-300 mb-2">Kategori</label>
+                                <select class="w-full bg-gray-800 text-white px-4 py-2 rounded-lg border border-accent-green/20 focus:border-accent-green outline-none">
+                                    <option>Web Development</option>
+                                    <option>Mobile Development</option>
+                                    <option>Data Science</option>
+                                    <option>Algorithms</option>
+                                    <option>Utilities</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-300 mb-2">Etiketler</label>
+                                <input type="text" placeholder="javascript, react, tutorial..." class="w-full bg-gray-800 text-white px-4 py-2 rounded-lg border border-accent-green/20 focus:border-accent-green outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-gray-800/30 to-gray-900/30 p-6 rounded-xl border border-accent-green/20">
+                        <h3 class="text-lg font-semibold mb-4 text-white">Paylaşım Ayarları</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-300">Herkese açık</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" checked class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent-green"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-300">Yorum izni</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" checked class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent-green"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- @END_COMPONENT: SharePage -->
+
+        <!-- @COMPONENT: GalleryPage [code gallery view] -->
+        <section id="gallery" class="section-content hidden">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-accent-green to-white bg-clip-text text-transparent">
+                    Kod Galerisi
+                </h2>
+                <p class="text-gray-300">Topluluk tarafından paylaşılan kod örneklerini keşfedin</p>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="flex flex-wrap items-center gap-4 mb-8">
+                <div class="flex items-center space-x-2">
+                    <label class="text-gray-300">Dil:</label>
+                    <select class="bg-gray-800 text-white px-3 py-2 rounded-lg border border-accent-green/20 focus:border-accent-green outline-none">
+                        <option value="">Tümü</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                    </select>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <label class="text-gray-300">Kategori:</label>
+                    <select class="bg-gray-800 text-white px-3 py-2 rounded-lg border border-accent-green/20 focus:border-accent-green outline-none">
+                        <option value="">Tümü</option>
+                        <option value="web">Web Development</option>
+                        <option value="mobile">Mobile Development</option>
+                        <option value="data">Data Science</option>
+                    </select>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <label class="text-gray-300">Sıralama:</label>
+                    <select class="bg-gray-800 text-white px-3 py-2 rounded-lg border border-accent-green/20 focus:border-accent-green outline-none">
+                        <option value="newest">En Yeni</option>
+                        <option value="popular">Popüler</option>
+                        <option value="rating">En Çok Beğenilen</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Code Cards Grid -->
+            <!-- @MAP: codeSnippets.map(snippet => ( -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div class="bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-xl border border-accent-green/20 overflow-hidden hover:border-accent-green/40 transition-all duration-300 hover:transform hover:scale-[1.02]">
+                    <div class="p-4 border-b border-accent-green/20">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold text-white" data-mock="true">React Hook Örneği</h3>
+                            <span class="text-xs bg-accent-green/20 text-accent-green px-2 py-1 rounded">JavaScript</span>
+                        </div>
+                        <p class="text-sm text-gray-400" data-mock="true">Kullanışlı bir custom hook örneği</p>
+                    </div>
+                    <div class="p-4">
+                        <pre class="text-sm text-gray-300 bg-gray-900/50 p-3 rounded overflow-x-auto" data-mock="true"><code>const useLocalStorage = (key, initialValue) => {
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      return initialValue;
+    }
+  });
+  // ...</code></pre>
+                    </div>
+                    <div class="p-4 border-t border-accent-green/20 flex items-center justify-between">
+                        <div class="flex items-center space-x-4 text-sm text-gray-400">
+                            <span><i class="fas fa-heart mr-1"></i>24</span>
+                            <span><i class="fas fa-comment mr-1"></i>5</span>
+                            <span><i class="fas fa-eye mr-1"></i>156</span>
+                        </div>
+                        <button class="text-accent-green hover:text-white transition-colors">
+                            <i class="fas fa-external-link-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-xl border border-accent-green/20 overflow-hidden hover:border-accent-green/40 transition-all duration-300 hover:transform hover:scale-[1.02]">
+                    <div class="p-4 border-b border-accent-green/20">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold text-white" data-mock="true">Python API Wrapper</h3>
+                            <span class="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">Python</span>
+                        </div>
+                        <p class="text-sm text-gray-400" data-mock="true">REST API için basit wrapper sınıfı</p>
+                    </div>
+                    <div class="p-4">
+                        <pre class="text-sm text-gray-300 bg-gray-900/50 p-3 rounded overflow-x-auto" data-mock="true"><code>class APIWrapper:
+    def __init__(self, base_url, api_key):
+        self.base_url = base_url
+        self.headers = {'Authorization': f'Bearer {api_key}'}
+    
+    def get(self, endpoint):
+        response = requests.get(f'{self.base_url}/{endpoint}', 
+                              headers=self.headers)
+        return response.json()
+        # ...</code></pre>
+                    </div>
+                    <div class="p-4 border-t border-accent-green/20 flex items-center justify-between">
+                        <div class="flex items-center space-x-4 text-sm text-gray-400">
+                            <span><i class="fas fa-heart mr-1"></i>18</span>
+                            <span><i class="fas fa-comment mr-1"></i>3</span>
+                            <span><i class="fas fa-eye mr-1"></i>89</span>
+                        </div>
+                        <button class="text-accent-green hover:text-white transition-colors">
+                            <i class="fas fa-external-link-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-xl border border-accent-green/20 overflow-hidden hover:border-accent-green/40 transition-all duration-300 hover:transform hover:scale-[1.02]">
+                    <div class="p-4 border-b border-accent-green/20">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold text-white" data-mock="true">CSS Animation Helper</h3>
+                            <span class="text-xs bg-purple-500/20 text-purple-400 px-2 py-1 rounded">CSS</span>
+                        </div>
+                        <p class="text-sm text-gray-400" data-mock="true">Smooth CSS animasyonları için utility class'lar</p>
+                    </div>
+                    <div class="p-4">
+                        <pre class="text-sm text-gray-300 bg-gray-900/50 p-3 rounded overflow-x-auto" data-mock="true"><code>.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+// ...</code></pre>
+                    </div>
+                    <div class="p-4 border-t border-accent-green/20 flex items-center justify-between">
+                        <div class="flex items-center space-x-4 text-sm text-gray-400">
+                            <span><i class="fas fa-heart mr-1"></i>31</span>
+                            <span><i class="fas fa-comment mr-1"></i>8</span>
+                            <span><i class="fas fa-eye mr-1"></i>234</span>
+                        </div>
+                        <button class="text-accent-green hover:text-white transition-colors">
+                            <i class="fas fa-external-link-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_MAP )) -->
+
+            <!-- Pagination -->
+            <div class="flex justify-center items-center space-x-2">
+                <button class="px-3 py-2 bg-gray-800 text-gray-400 rounded-lg hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="px-3 py-2 bg-accent-green text-white rounded-lg">1</button>
+                <button class="px-3 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors">2</button>
+                <button class="px-3 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors">3</button>
+                <button class="px-3 py-2 bg-gray-800 text-gray-400 rounded-lg hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </section>
+        <!-- @END_COMPONENT: GalleryPage -->
+
+        <!-- @COMPONENT: SearchPage [search interface] -->
+        <section id="search" class="section-content hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-8">
+                    <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-accent-green to-white bg-clip-text text-transparent">
+                        Kod Ara
+                    </h2>
+                    <p class="text-gray-300">Milyonlarca kod snippet arasından aradığınızı bulun</p>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="relative mb-8">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                    <input type="text" id="search-input" placeholder="Kod, etiket veya kullanıcı ara..." 
+                           class="w-full pl-12 pr-4 py-4 bg-gray-800/50 text-white rounded-xl border border-accent-green/20 focus:border-accent-green outline-none text-lg">
+                    <button class="absolute right-2 top-2 bottom-2 px-6 bg-accent-green hover:bg-light-green text-white rounded-lg transition-colors">
+                        Ara
+                    </button>
+                </div>
+
+                <!-- Search Filters -->
+                <div class="bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-xl border border-accent-green/20 p-6 mb-8">
+                    <h3 class="text-lg font-semibold mb-4 text-white">Gelişmiş Filtreler</h3>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-300 mb-2">Programlama Dili</label>
+                            <select class="w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-accent-green/20 focus:border-accent-green outline-none">
+                                <option value="">Tümü</option>
+                                <option value="javascript">JavaScript</option>
+                                <option value="python">Python</option>
+                                <option value="java">Java</option>
+                                <option value="cpp">C++</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-300 mb-2">Tarih Aralığı</label>
+                            <select class="w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-accent-green/20 focus:border-accent-green outline-none">
+                                <option value="">Tüm zamanlar</option>
+                                <option value="day">Son 24 saat</option>
+                                <option value="week">Son hafta</option>
+                                <option value="month">Son ay</option>
+                                <option value="year">Son yıl</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-300 mb-2">Minimum Puan</label>
+                            <select class="w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-accent-green/20 focus:border-accent-green outline-none">
+                                <option value="">Fark etmez</option>
+                                <option value="10">10+</option>
+                                <option value="25">25+</option>
+                                <option value="50">50+</option>
+                                <option value="100">100+</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Results -->
+                <div id="search-results">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-semibold text-white">Arama Sonuçları</h3>
+                        <span class="text-gray-400" data-mock="true">127 sonuç bulundu</span>
+                    </div>
+
+                    <!-- Results List -->
+                    <div class="space-y-4">
+                        <div class="bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-xl border border-accent-green/20 p-6 hover:border-accent-green/40 transition-all duration-300">
+                            <div class="flex items-start justify-between mb-3">
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white mb-1" data-mock="true">React useEffect Hook Rehberi</h4>
+                                    <p class="text-gray-300" data-mock="true">React'ta useEffect hook'unun detaylı kullanımı ve best practice'ler</p>
+                                </div>
+                                <div class="flex items-center space-x-2 text-sm text-gray-400">
+                                    <span class="bg-accent-green/20 text-accent-green px-2 py-1 rounded">JavaScript</span>
+                                    <span><i class="fas fa-heart mr-1"></i>42</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between text-sm text-gray-400">
+                                <span data-mock="true">@devuser123 • 2 gün önce</span>
+                                <button class="text-accent-green hover:text-white transition-colors">
+                                    <i class="fas fa-external-link-alt mr-1"></i>Kodu Görüntüle
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-xl border border-accent-green/20 p-6 hover:border-accent-green/40 transition-all duration-300">
+                            <div class="flex items-start justify-between mb-3">
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white mb-1" data-mock="true">Python Veri Analizi Araçları</h4>
+                                    <p class="text-gray-300" data-mock="true">Pandas ve NumPy ile hızlı veri işleme fonksiyonları</p>
+                                </div>
+                                <div class="flex items-center space-x-2 text-sm text-gray-400">
+                                    <span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded">Python</span>
+                                    <span><i class="fas fa-heart mr-1"></i>38</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between text-sm text-gray-400">
+                                <span data-mock="true">@dataexpert • 5 gün önce</span>
+                                <button class="text-accent-green hover:text-white transition-colors">
+                                    <i class="fas fa-external-link-alt mr-1"></i>Kodu Görüntüle
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-xl border border-accent-green/20 p-6 hover:border-accent-green/40 transition-all duration-300">
+                            <div class="flex items-start justify-between mb-3">
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white mb-1" data-mock="true">CSS Grid Layout Örnekleri</h4>
+                                    <p class="text-gray-300" data-mock="true">Modern web tasarımında CSS Grid kullanımı</p>
+                                </div>
+                                <div class="flex items-center space-x-2 text-sm text-gray-400">
+                                    <span class="bg-purple-500/20 text-purple-400 px-2 py-1 rounded">CSS</span>
+                                    <span><i class="fas fa-heart mr-1"></i>29</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between text-sm text-gray-400">
+                                <span data-mock="true">@cssmaster • 1 hafta önce</span>
+                                <button class="text-accent-green hover:text-white transition-colors">
+                                    <i class="fas fa-external-link-alt mr-1"></i>Kodu Görüntüle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- @END_COMPONENT: SearchPage -->
+
+    </main>
+    <!-- @END_COMPONENT: MainContent -->
+
+    <!-- @COMPONENT: Footer [site footer] -->
+    <footer class="mt-16 border-t border-accent-green/20 bg-gradient-to-r from-dark-green/50 to-black/50">
+        <div class="container mx-auto px-6 py-8">
+            <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
+                <div>
+                    <div class="flex items-center justify-center md:justify-start space-x-3 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-br from-accent-green to-light-green rounded-lg flex items-center justify-center">
+                            <i class="fas fa-code text-white text-sm"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">MinuslarDev</h3>
+                    </div>
+                    <p class="text-gray-300">Açık kaynak kod paylaşım platformu. Toplulukla birlikte öğrenin ve geliştirin.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Hızlı Linkler</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-accent-green transition-colors">Kod Paylaş</a></li>
+                        <li><a href="#" class="hover:text-accent-green transition-colors">Galeri</a></li>
+                        <li><a href="#" class="hover:text-accent-green transition-colors">API Dökümanı</a></li>
+                        <li><a href="#" class="hover:text-accent-green transition-colors">GitHub</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">İletişim</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-accent-green transition-colors">Discord</a></li>
+                        <li><a href="#" class="hover:text-accent-green transition-colors">Twitter</a></li>
+                        <li><a href="#" class="hover:text-accent-green transition-colors">GitHub</a></li>
+                        <li><a href="#" class="hover:text-accent-green transition-colors">E-posta</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-accent-green/20 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2024 MinuslarDev. Tüm hakları saklıdır. Açık kaynak lisansı ile sunulmaktadır.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <script>
+        (function() {
+            // Navigation functionality
+            const navLinks = document.querySelectorAll('.nav-link, [data-nav]');
+            const sections = document.querySelectorAll('.section-content');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // Show/hide sections based on navigation
+            function showSection(targetId) {
+                sections.forEach(section => {
+                    if (section.id === targetId) {
+                        section.classList.remove('hidden');
+                    } else {
+                        section.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Handle navigation clicks
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = link.getAttribute('href')?.substring(1) || link.getAttribute('data-nav');
+                    if (target) {
+                        showSection(target);
+                        // Close mobile menu if open
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Mobile menu toggle
+            mobileMenuBtn?.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Monaco Editor initialization
+            let editor;
+            if (typeof require !== 'undefined') {
+                require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.34.1/min/vs' } });
+                require(['vs/editor/editor.main'], function () {
+                    editor = monaco.editor.create(document.getElementById('editor-container'), {
+                        value: '// Kodunuzu buraya yazın...\nfunction hello() {\n    console.log("Merhaba MinuslarDev!");\n}',
+                        language: 'javascript',
+                        theme: 'vs-dark',
+                        automaticLayout: true,
+                        fontSize: 14,
+                        minimap: { enabled: false },
+                        scrollBeyondLastLine: false
+                    });
+
+                    // Language selector
+                    const languageSelect = document.getElementById('language-select');
+                    languageSelect?.addEventListener('change', (e) => {
+                        if (editor) {
+                            monaco.editor.setModelLanguage(editor.getModel(), e.target.value);
+                        }
+                    });
+                });
+            }
+
+            // Copy to clipboard functionality
+            document.getElementById('copy-btn')?.addEventListener('click', async () => {
+                if (editor) {
+                    const code = editor.getValue();
+                    try {
+                        await navigator.clipboard.writeText(code);
+                        // TODO: Show success toast notification
+                        console.log('Kod panoya kopyalandı!');
+                    } catch (err) {
+                        console.error('Kopyalama başarısız:', err);
+                    }
+                }
+            });
+
+            // Save code functionality
+            document.getElementById('save-btn')?.addEventListener('click', () => {
+                if (editor) {
+                    const code = editor.getValue();
+                    const title = document.getElementById('code-title')?.value || 'Başlıksız Kod';
+                    const language = document.getElementById('language-select')?.value || 'javascript';
+                    
+                    // TODO: Implement actual save functionality with API
+                    console.log('Kod kaydediliyor:', { title, language, code });
+                    
+                    // Mock success response
+                    setTimeout(() => {
+                        alert('Kod başarıyla kaydedildi! Paylaşım linki: minuslar.dev.tc/code/abc123');
+                    }, 500);
+                }
+            });
+
+            // Search functionality
+            document.getElementById('search-input')?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const query = e.target.value;
+                    // TODO: Implement actual search API call
+                    console.log('Arama yapılıyor:', query);
+                }
+            });
+
+            // Initialize with home section
+            showSection('home');
+        })();
+    </script>
+</body>
+</html>
